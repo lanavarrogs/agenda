@@ -7,23 +7,7 @@
 <div class="bg-amarillo contenedor sombra">
     <form id="contacto" action="#">
         <legend>Añada un contacto <span>Todos los campos son obligatorios</span></legend>
-        <div class="campos">
-            <div class="campo"> 
-                <label for="nombre">Nombre:</label>
-                <input type="text" placeholder="Nombre Contacto" id="nombre">
-            </div>
-            <div class="campo"> 
-                <label for="empresa">Empresa:</label>
-                <input type="text" placeholder="Nombre Empresa" id="empresa">
-            </div>
-            <div class="campo"> 
-                <label for="telefono">Telefono:</label>
-                <input type="tel" placeholder="Telefono Contacto" id="telefono">
-            </div>
-        </div><!--Campos-->
-        <div class="campo enviar">
-            <input type="submit" value="Añadir">
-        </div>
+        <?php include 'includes/layout/formulario.php' ?>
     </form><!--Formulario-->
 </div><!--Contedor-->
 
@@ -41,14 +25,14 @@
                         <th>Telefono</th>
                         <th>Acciones</th>
                     </tr>
-                </thead>
+                </thead><!--Cabeza de la tabla-->
                 <tbody>
                     <tr>
                         <td>Luis Angel</td>
                         <td>Udemy</td>
                         <td>55862667</td>
                         <td>
-                            <a href="#" class="btn-editar btn">
+                            <a href="editar.php?id=1" class="btn-editar btn">
                                 <i class="fas fa-pen-square"></i>
                             </a>
                             <button data-id="1" type="button" class="btn-borrar btn">
@@ -56,12 +40,11 @@
                             </button>
                         </td>
                     </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-</div>
-
+                </tbody><!--Cuerpo de la tabla-->
+            </table><!--Fin de la tabla-->
+        </div><!--Contenedor-tabla-->
+    </div><!--Contenedor Contactos-->
+</div><!--contactos-->
 
 
 <?php include 'includes/layout/footer.php'?>

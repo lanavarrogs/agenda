@@ -50,6 +50,11 @@ html {
   .contenedor-barra{
       background-color: var(--color-primario-oscuro);
   }
+  .barra{
+      display: grid;
+      grid-template-columns: 100px 1fr;
+      align-items: center;
+  }
   /**Botones**/
   .btn{
     font-size: 2rem;
@@ -60,6 +65,37 @@ html {
   }
   .btn-borrar{
     color: var(--color-primario);
+  }
+  .btn-volver{
+      background-color: var(--color-secundario);
+      border-radius: 5px;
+      color: #000000;
+      text-align: center;
+      font-size: 1.2rem;
+      font-weight: 700;
+      padding: .5rem;
+      text-decoration: none;
+  }
+  /**Notificaciones**/
+  .notificacion{
+      position: fixed;
+      top: 1rem;
+      right: 1rem;
+      padding: 1rem 3rem;
+      opacity: 0;
+      transition: opacity .3s ease-in-out;
+  }
+  .visible{
+      opacity: 1;
+  }
+  /**Colores de la notificacion **/
+  .correcto{
+    background-color: rgb(179, 241, 117);
+    color: green;
+  }
+  .error{
+    background-color: rgb(238, 148, 166);
+    color: rgb(163, 0, 33);
   }
   /** Formulario **/
   form{
@@ -182,4 +218,4 @@ html {
     background-color: transparent;
     border: none;
   }
-  
+  /**Internas**/
