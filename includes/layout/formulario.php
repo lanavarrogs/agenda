@@ -12,6 +12,7 @@
         <input type="tel" placeholder="Telefono Contacto" id="telefono">
     </div>
 </div><!--Campos-->
+<input type="hidden" id="accion" value="crear">
 <div class="campo enviar">
     <input type="submit" value="Añadir">
 </div>
