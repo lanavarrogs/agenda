@@ -43,16 +43,38 @@ function insertarBD(datos){
     //Abrir la conexion
     xhr.open('POST','includes/models/modelo-contacto.php');
     //Pasar los datos
-    xhr.onload = function(){
-        if(this.status === 200 ){
-            //Leemos la respuesta de php
-            const respuesta = JSON.parse(xhr.responseText);
-            console.log(respuesta);
-        }
-    }
+     xhr.onload = function(){
+         if(this.status === 200 ){
+             console.log(JSON.parse(xhr.responseText));
+             //Leemos la respuesta de php
+             const respuesta = JSON.parse(xhr.responseText);
+
+             //Inserta un nuevo elemento a la tabla
+             const nuevoContacto = document.createElement('tr');
+
+             nuevoContacto.innerHTML = `
+                <td>${respuesta.datos.nombre}</td>
+                <td>${respuesta.datos.empresa}</td>
+                <td>${respuesta.datos.telefono}</td>
+             `;
+
+             //Crear contenedor para los botones
+             const contenedorAcciones = document.createElement('td');
+
+             //crear el incono de Editar
+             const iconoEditar = document.createElement('i');
+             iconoEditar.classList.add('fas','fa-pen-square')
+
+             //Crea el enlace para Editar
+             const btnEditar = document.createElement('');
+             btnEditar.appendChild(iconoEditar);
+         }
+     }
     //Enviar los datos
     xhr.send(datos)
 }
+
+
 
 
 

@@ -12,15 +12,15 @@
                 $stmt = $conexion->prepare("INSERT INTO contactos(nombre,empresa,telefono) VALUES (?,?,?)");
                 $stmt->bind_param("sss", $nombre ,$empresa ,$telefono);
                 $stmt->execute();
-                if($stmt->affected_row == 1){
+                if($stmt->affected_rows == 1){
                     $respuesta = array(
                         'respuesta' => 'correcto',
-                        'info' => $stmt->insert_id,
-                        'datos' => array(
+                        'info' => array(
                             'nombre' => $nombre,
-                            'empresa' => $empresa,
-                            'telefono' => $telefono
-                        )
+                            'empresa'=> $empresa,
+                            'telefono'=> $telefono,
+                            'id_insertado' => $stmt->insert_id
+                        ),
                     );
                 }
                 $stmt->close();
@@ -30,8 +30,6 @@
                     'error' => $e->getMessage()
                 );
             }
-
-        echo json_encode($respuesta);
     }
-    
+    echo json_encode($respuesta);
 ?>
