@@ -1,4 +1,7 @@
-<?php include 'includes/layout/header.php'?>
+<?php   
+        include 'includes/layout/header.php';
+        include 'includes/functions/funciones.php';
+?>
 
 <div class="contenedor-barra">
     <h1>Agenda de contactos</h1>
@@ -27,19 +30,26 @@
                     </tr>
                 </thead><!--Cabeza de la tabla-->
                 <tbody>
-                    <tr>
-                        <td>Luis Angel</td>
-                        <td>Udemy</td>
-                        <td>55862667</td>
-                        <td>
-                            <a href="editar.php?id=1" class="btn-editar btn">
-                                <i class="fas fa-pen-square"></i>
-                            </a>
-                            <button data-id="1" type="button" class="btn-borrar btn">
-                                <i class="fas fa-trash-alt"></i>
-                            </button>
-                        </td>
-                    </tr>
+                    <?php $contactos = ObtenerContactos();
+                        if($contactos->num_rows){  
+                            foreach ($contactos as $contacto) { ?>
+                            <tr>
+                                <pre><?php print_r($contacto) ?></pre>
+                                <td><?php echo $contacto['nombre']?></td>
+                                <td><?php echo $contacto['empresa']?></td>
+                                <td><?php echo $contacto['telefono']?></td>
+                                <td>
+                                    <a href="editar.php?id=<?php echo $contacto['id_contacto']?>" class="btn-editar btn">
+                                        <i class="fas fa-pen-square"></i>
+                                    </a>
+                                    <button data-id="<?php echo $contacto['id_contacto'] ?>" type="button" class="btn-borrar btn">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        <?php }
+                            } 
+                        ?>   
                 </tbody><!--Cuerpo de la tabla-->
             </table><!--Fin de la tabla-->
         </div><!--Contenedor-tabla-->

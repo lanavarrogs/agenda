@@ -1,5 +1,6 @@
 <?php
     error_reporting(E_ALL ^ E_NOTICE);
+
     if($_POST['accion'] == 'crear'){
         //Crear un nuevo registro en la base de datos
             include('../functions/db.php');
@@ -30,6 +31,7 @@
                     'error' => $e->getMessage()
                 );
             }
+        echo json_encode($respuesta);
     }
-    echo json_encode($respuesta);
+
 ?>
