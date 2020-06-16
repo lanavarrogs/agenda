@@ -1,4 +1,5 @@
-const formularioContactos = document.querySelector('#contacto');
+const formularioContactos = document.querySelector('#contacto'),
+      listadoContactos = document.querySelector('#listado-contactos tbody');
 
 //Obtener los eventos
 function eventListeners(){
@@ -63,21 +64,41 @@ function insertarBD(datos){
 
              //crear el incono de Editar
              const iconoEditar = document.createElement('i');
-             iconoEditar.classList.add('fas','fa-pen-square')
+             iconoEditar.classList.add('fas','fa-pen-square');
 
              //Crea el enlace para Editar
-             const btnEditar = document.createElement('');
+             const btnEditar = document.createElement('a');
              btnEditar.appendChild(iconoEditar);
+             btnEditar.href = `editar.php?id=${respuesta.id_insertado}`;
+             btnEditar.classList.add('btn','btn-editar');
+
+             //agregarlo al padre
+             contenedorAcciones.appendChild(btnEditar);
+
+             //crear el icono Eliminar
+             const iconoEliminar = document.createElement('i');
+             iconoEditar.classList.add('fas','fa-trash-alt');
+
+             //crear el boton de eliminar
+             const btnEliminar = document.createElement('button');
+             btnEliminar.appendChild(iconoEliminar);
+             btnEliminar.setAttribute('data-id',respuesta.datos.id_insertado);
+             btnEditar.classList.add('btn','btn-borrar');
+
+             //agregar el boton al padre
+             contenedorAcciones.appendChild(btnEliminar);
+
+             //Agregarlo al tr
+             nuevoContacto.appendChild(contenedorAcciones);
+
+             //Agregarlo con los contactos
+             listadoContactos.appendChild(nuevoContacto);
          }
      }
     //Enviar los datos
-    xhr.send(datos)
+    xhr.send(datos);
+        
 }
-
-
-
-
-
 //Notificacion en pantalla
 function mostrarNotificacion(mensaje,clase){
     const notificacion = document.createElement('div');

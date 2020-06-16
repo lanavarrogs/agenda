@@ -15,7 +15,7 @@
                 if($stmt->affected_rows == 1){
                     $respuesta = array(
                         'respuesta' => 'correcto',
-                        'info' => array(
+                        'datos' => array(
                             'nombre' => $nombre,
                             'empresa'=> $empresa,
                             'telefono'=> $telefono,
