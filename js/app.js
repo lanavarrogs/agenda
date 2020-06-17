@@ -5,9 +5,10 @@ const formularioContactos = document.querySelector('#contacto'),
 function eventListeners(){
     //Cuando el Formulario de crear o editar se ejecuta
     formularioContactos.addEventListener('submit',leerFormulario);
-
     //Listener para eliminar el contacto
-    listadoContactos.addEventListener('click',eliminarContacto);
+    if(listadoContactos){
+        listadoContactos.addEventListener('click',eliminarContacto);
+    }
 }
 eventListeners();
 
@@ -17,7 +18,7 @@ function leerFormulario(e){
     const nombre = document.querySelector('#nombre').value,
         empresa = document.querySelector('#empresa').value,
         telefono = document.querySelector('#telefono').value,
-        accion = document.querySelector('#accion').value;
+        accion = (document.querySelector('#accion').value).toLowerCase();
 
     if(nombre === "" || empresa === "" || telefono === ""){
         //Dos parametros texto y clase
@@ -29,12 +30,15 @@ function leerFormulario(e){
         infoContacto.append('empresa',empresa);
         infoContacto.append('telefono',telefono);
         infoContacto.append('accion',accion);
-
         if(accion ===  'crear'){
             //Crearemos un nuevo Elemento
             insertarBD(infoContacto);
         }else{
             //editar el contacto
+            //Leer el id
+            const idRegistro = document.querySelector('#id').value;
+            infoContacto.append('id',idRegistro);
+            actualizarRegistro(infoContacto);
         }
     }
 }
@@ -109,12 +113,38 @@ function insertarBD(datos){
         
 }
 
+function actualizarRegistro(datos){
+    //Crear el objeto
+    const xhr = new XMLHttpRequest();
+
+    //Abrir la conexion
+    xhr.open('POST','includes/models/modelo-contacto.php',true);
+
+    //Leer la respuesta
+    xhr.onload = function(){
+        if(this.status == 200){
+            const {respuesta} = JSON.parse(xhr.responseText);
+            console.log(respuesta)
+            if(respuesta === 'correcto'){
+                mostrarNotificacion('Contacto Editado Correctamente', 'correcto');
+            }else{
+                mostrarNotificacion('Hubo un error', 'error');
+            }
+        }
+    }
+
+    //Enviar la peticion
+    xhr.send(datos);
+
+}
+
 //Eliminar Contacto
 function eliminarContacto(e){
     if(e.target.parentElement.classList.contains('btn-borrar')){
         //Tomar el id
         const id = e.target.parentElement.getAttribute('data-id');
-        if(true){
+        let respuesta = confirm("Seguro que desea eliminar al contacto");
+        if(respuesta){
             const xhr = new XMLHttpRequest();
             //Abrir la conexion
             xhr.open('GET',`includes/models/modelo-contacto.php?id=${id}&accion=borrar`,true);
@@ -122,7 +152,14 @@ function eliminarContacto(e){
             xhr.onload = function(){
                 if(this.status==200){
                     const resultado = JSON.parse(xhr.responseText);
-                    console.log(resultado);
+                    if(resultado.respuesta == 'correcto'){
+                        //Eliminar el registro del dom
+                        e.target.parentElement.parentElement.parentElement.remove();
+                        //Mostrar Notificacion
+                        mostrarNotificacion('Contacto Eliminado','correcot');
+                    }else{
+                        mostrarNotificacion('Hubo un error', 'error');
+                    }
                 }
             };
             //Enviar la peticion
