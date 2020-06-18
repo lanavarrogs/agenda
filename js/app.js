@@ -1,5 +1,6 @@
 const formularioContactos = document.querySelector('#contacto'),
-    listadoContactos = document.querySelector('#listado-contactos tbody');
+    listadoContactos = document.querySelector('#listado-contactos tbody'),
+    inputBuscar = document.querySelector('#buscar');
 
 //Obtener los eventos
 function eventListeners(){
@@ -9,6 +10,9 @@ function eventListeners(){
     if(listadoContactos){
         listadoContactos.addEventListener('click',eliminarContacto);
     }
+    //Listener para buscar contacto
+    inputBuscar.addEventListener('input',buscarContacto);
+    totalContactos();
 }
 eventListeners();
 
@@ -39,6 +43,9 @@ function leerFormulario(e){
             const idRegistro = document.querySelector('#id').value;
             infoContacto.append('id',idRegistro);
             actualizarRegistro(infoContacto);
+            setTimeout(()=>{
+                window.location.href = "index.php"
+            },3000);
         }
     }
 }
@@ -106,6 +113,8 @@ function insertarBD(datos){
 
             //Mostrar la Notificacion
             mostrarNotificacion('Contacto Creado Correctamente','correcto');
+
+            totalContactos();
         }
     }
     //Enviar los datos
@@ -130,6 +139,8 @@ function actualizarRegistro(datos){
             }else{
                 mostrarNotificacion('Hubo un error', 'error');
             }
+            
+            
         }
     }
 
@@ -157,6 +168,7 @@ function eliminarContacto(e){
                         e.target.parentElement.parentElement.parentElement.remove();
                         //Mostrar Notificacion
                         mostrarNotificacion('Contacto Eliminado','correcot');
+                        totalContactos();
                     }else{
                         mostrarNotificacion('Hubo un error', 'error');
                     }
@@ -167,6 +179,35 @@ function eliminarContacto(e){
         }
     }
 }
+
+//Buscar un contacto
+function buscarContacto(e){
+    const expresion = new RegExp(e.target.value,"i"),
+            registros = document.querySelectorAll("tbody tr");
+
+            registros.forEach(registro => {
+                registro.style.display = "none";
+                if(registro.childNodes[1].textContent.replace('/\s/g', " ").search(expresion) != -1){
+                    registro.style.display = "table-row";
+                }
+                totalContactos();
+            });
+}
+
+//Muestra el numero de contactos
+function totalContactos(){
+    const totalContactos = document.querySelectorAll('tbody tr'),
+            contenedorNumero = document.querySelector('.total-contactos span');
+    let total = 0;
+    totalContactos.forEach(contacto => {
+        if(contacto.style.display == '' || contacto.style.display == 'table-row'){
+            total++;
+        }
+    });
+    console.log(total);
+    contenedorNumero.textContent = total;
+}
+
 
 //Notificacion en pantalla
 function mostrarNotificacion(mensaje,clase){
